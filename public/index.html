@@ -53,6 +53,9 @@
 
         try {
           let app = firebase.app();
+          
+          fetch('http://localhost:5001/fir-cloud-function-d0893/us-central1/api/dog')
+            .then(result => {console.log(result)})
           let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
           document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
         } catch (e) {
