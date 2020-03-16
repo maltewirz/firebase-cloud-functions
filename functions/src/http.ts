@@ -17,9 +17,19 @@ export const basicHTTP2 = functions.https.onRequest((request, response) => {
     
 });
 
+const auth = (request, response, next) => {
+    console.log('inside middleware');
+    
+    // if (!request.header.authorization) {
+    //     response.status(400).send('unauthorized')
+    // }
+    next()
+}
+
 
 const app = express();
 app.use(cors({ origin: true)});
+app.use(auth);
 
 app.get('/cat', (request, response) => {
     response.send('CAT');
