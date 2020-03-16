@@ -1,10 +1,15 @@
 import * as functions from 'firebase-functions';
 
 import * as admin from 'firebase-admin';
-import { responsePathAsArray } from 'graphql';
 admin.initializeApp();
 
+export const basicHTTP2 = functions.https.onRequest((request, response) => {
+    const name = request.query.name;
 
-export const basicHTTP = functions.https.onRequest((request, response) => {
-    response.send('Hello from Firebase');
+    if (!name) {
+        response.status(400).send('You must supply a name or two')
+    } else {
+        response.send(`Hello there ${name}`);
+    }
+    
 });
