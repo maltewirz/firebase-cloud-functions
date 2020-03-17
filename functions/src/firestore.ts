@@ -23,3 +23,27 @@ export const gameCount = functions.firestore
             return
         }
     })
+
+export const userTrend = functions.firestore
+    .document('games/{gameId}')
+    .onUpdate((snapshot, context) => {
+        const before = snapshot.before.data();
+        const after= snapshot.after.data();
+
+        let trend;
+        if (after && before) {
+            if (after.score >= before.score) {
+                trend = 'you are improving :)';
+            } else {
+                trend = 'you are on the decline :(';
+            }
+    
+            const userRef = db.doc(`users/${after.uid}`);
+            return userRef.update({
+                trend
+            });
+        } else {
+            return
+        }
+      
+    })
